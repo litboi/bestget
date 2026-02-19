@@ -1,32 +1,210 @@
-index.html
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Bestget | Premium Tech Picks</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BESTGET</title>
 
-    <link rel="stylesheet" href="style.css">
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f3f4f6;
+}
+
+/* HEADER */
+header {
+    background-color: #111827;
+    color: white;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.search-container {
+    position: relative;
+}
+
+#searchBar {
+    padding: 10px;
+    width: 300px;
+    border-radius: 5px;
+    border: none;
+}
+
+#suggestions {
+    position: absolute;
+    background: white;
+    width: 100%;
+    border-radius: 5px;
+    margin-top: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #e5e7eb;
+}
+
+/* HERO SECTION */
+.hero {
+    background: linear-gradient(to right, #111827, #1f2937);
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 18px;
+    opacity: 0.8;
+}
+
+/* PRODUCTS */
+.products {
+    padding: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.product-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-card h3 {
+    margin-top: 15px;
+}
+
+/* FOOTER */
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+</style>
 </head>
+
 <body>
 
 <header>
-    <div class="logo">Bestget</div>
-    <input type="text" id="searchBar" placeholder="Search tech products...">
+    <div class="logo">BESTGET</div>
+
+    <div class="search-container">
+        <input type="text" id="searchBar" placeholder="Search for products...">
+        <div id="suggestions"></div>
+    </div>
 </header>
 
 <section class="hero">
-    <h1>Discover The Best Tech Appliances</h1>
-    <p>Handpicked technology gadgets and smart home tools</p>
+    <h1>Welcome to BESTGET</h1>
+    <p>Your destination for quality home and car essentials.</p>
 </section>
 
-<main id="products-container"></main>
+<section class="products" id="products">
+
+    <div class="product-card" id="vacuum1">
+        <img src="https://images.unsplash.com/photo-1581579188871-45ea61f2a71b" alt="Vacuum Cleaner">
+        <h3>PowerMax Vacuum Cleaner</h3>
+    </div>
+
+    <div class="product-card" id="vacuum2">
+        <img src="https://images.unsplash.com/photo-1603714228681-b399854b8b76" alt="Smart Vacuum">
+        <h3>Smart Robotic Vacuum</h3>
+    </div>
+
+    <div class="product-card" id="car1">
+        <img src="https://images.unsplash.com/photo-1605559424843-9e4c22880e53" alt="Car Gadget">
+        <h3>Car Phone Mount</h3>
+    </div>
+
+    <div class="product-card" id="car2">
+        <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a" alt="Car Vacuum">
+        <h3>Portable Car Vacuum</h3>
+    </div>
+
+</section>
 
 <footer>
-    <p>© 2026 Bestget | Affiliate Disclosure: We earn commissions from qualifying purchases.</p>
+    © 2026 BESTGET. All rights reserved.
 </footer>
 
-<script src="script.js"></script>
+<script>
+const products = [
+    { name: "PowerMax Vacuum Cleaner", id: "vacuum1" },
+    { name: "Smart Robotic Vacuum", id: "vacuum2" },
+    { name: "Car Phone Mount", id: "car1" },
+    { name: "Portable Car Vacuum", id: "car2" }
+];
+
+const searchBar = document.getElementById("searchBar");
+const suggestions = document.getElementById("suggestions");
+
+searchBar.addEventListener("input", function() {
+    const value = this.value.toLowerCase();
+    suggestions.innerHTML = "";
+    
+    if (value === "") {
+        suggestions.style.display = "none";
+        return;
+    }
+
+    const filtered = products.filter(product =>
+        product.name.toLowerCase().includes(value)
+    );
+
+    filtered.forEach(product => {
+        const div = document.createElement("div");
+        div.classList.add("suggestion-item");
+        div.textContent = product.name;
+
+        div.addEventListener("click", function() {
+            document.getElementById(product.id).scrollIntoView({ behavior: "smooth" });
+            suggestions.style.display = "none";
+            searchBar.value = "";
+        });
+
+        suggestions.appendChild(div);
+    });
+
+    suggestions.style.display = filtered.length ? "block" : "none";
+});
+</script>
+
 </body>
 </html>
